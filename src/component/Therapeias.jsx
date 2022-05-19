@@ -6,20 +6,20 @@ const Therapeias = () => {
   const [therapeias, setTherapeias] = useState([]);
 
   useEffect(() => {
-    const shortTextRef = collection(db, "therapeia" )
-    const q = query(shortTextRef, orderBy("createdAt", "desc"))
+    const therapeiaRef = collection(db, "therapeia")
+    const q = query(therapeiaRef, orderBy("createdAt", "desc"))
     onSnapshot(q, (snapshot) => {
-      const therapeia =  snapshot.docs.map((doc) => ({
+      console.log(snapshot)
+    })
+    onSnapshot(q, (snapshot) => {
+      const therapeias =  snapshot.docs.map((doc) => ({
         id: doc.id, 
         ...doc.data(),
       }))
-      setTherapeias(therapeia)
+
+      setTherapeias(therapeias)
     })
   }, [])
-  
-  useEffect(() => {
-    console.log(therapeias);
-  }, [therapeias])
 
   return (
     <div>
@@ -27,12 +27,12 @@ const Therapeias = () => {
         <p>No therapeias</p>
       )  : (
         therapeias.map(({id, title, description, imageUrl, createdAt}) => (
-        <div key={id} className="border mt-3 p-3 bg-light">
-          <div className='row'>
-            <div className='col-3'>
+        <div key={id} >
+          <div >
+            <div >
               <img src={imageUrl} alt="title" style={{height:180, width:180}}/>
             </div>
-            <div className='col-9 ps-3'>
+            <div>
               <h2>{title}</h2>
               <p>{createdAt.toDate().toDateString()}</p>
               <h4>{description}</h4>
